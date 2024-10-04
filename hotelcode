@@ -12,7 +12,7 @@ public:
     string name;
     int age;
     string phone;
-    int roomNumber; // номер комнаты, в которой проживает
+    int roomNumber;
 
     Guest(int id, const string& name, int age, const string& phone)
         : id(id), name(name), age(age), phone(phone), roomNumber(-1) {}
@@ -25,7 +25,7 @@ public:
     string type;
     string title;
     int beds;
-    bool status; // true - свободна, false - занята
+    bool status;
     double price;
 
     Room(int id, int number, const string& type, const string& title, int beds, double price)
@@ -98,7 +98,7 @@ public:
         cout << "Введите ID гостя: ";
         cin >> guestId;
 
-        // Поиск гостя
+        
         auto guestIt = find_if(guests.begin(), guests.end(), [guestId](const Guest& g) {
             return g.id == guestId;
             });
@@ -111,7 +111,7 @@ public:
         cout << "Введите номер комнаты: ";
         cin >> roomNumber;
 
-        // Поиск комнаты
+        
         auto roomIt = find_if(rooms.begin(), rooms.end(), [roomNumber](Room& r) {
             return r.number == roomNumber && r.status;
             });
@@ -127,7 +127,7 @@ public:
     }
 
     void addGuestToRoom() {
-        // Дополнительный гость в ту же комнату
+        
         int mainGuestId, otherGuestId;
         cout << "Введите ID основного гостя: ";
         cin >> mainGuestId;
@@ -171,24 +171,24 @@ public:
             return;
         }
 
-        // Найдем связанную комнату
+        
         auto roomIt = find_if(rooms.begin(), rooms.end(), [guestIt](Room& r) {
             return r.number == guestIt->roomNumber;
             });
 
-        // Автоматически выселим всех других жильцов этой комнаты
+    
         for (auto& g : guests) {
             if (g.roomNumber == roomIt->number) {
-                g.roomNumber = -1; // Выписываем из комнаты
+                g.roomNumber = -1; 
             }
         }
 
-        // Создание счёта (пример)
+        
         time_t currentTime = time(0);
-        double amount = roomIt->price; // Счёт за 1 ночь, можно улучшить
+        double amount = roomIt->price; 
         bills.emplace_back(billIdCounter++, guestIt->id, roomIt->id, currentTime, currentTime, amount);
 
-        roomIt->status = true; // Освобождаем комнату
+        roomIt->status = true; 
         cout << "Гость выселен, счёт создан. Сумма: " << amount << "\n";
     }
 
